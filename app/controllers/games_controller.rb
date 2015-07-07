@@ -1,9 +1,16 @@
 require 'json'
 
 class GamesController < ApplicationController
-  #create a new game
+  #create a new game and initialize board to nil
+  # POST games/new
+  #
+  # returns
+  # {
+  #   game_id: integer
+  # }
   def create
     game = Game.new
+    game.board = Board.new(board_state: Array.new(6){Array.new(6){0}})
     game.is_active = false
     game.save!
     render json: {game_id: game.id}
@@ -42,6 +49,7 @@ class GamesController < ApplicationController
       if game.player_one
         game.player_two = new_player.id
         game.is_active = true
+        game.last_player_id = new_player.id
       else
         game.player_one = new_player.id
         first_move = true
@@ -52,7 +60,12 @@ class GamesController < ApplicationController
     end
   end
 
-  # gets a single game if it exists. If the game does not exist returns {}
+  #going to need game id (in url) player token (in post body) and move (x,y)
+  def move
+    render json: {move: "test"}
+  end
+
+  # shows a single game if it exists.
   # {
   #   "id":integer,
   #   "player_one":integer,
@@ -69,7 +82,7 @@ class GamesController < ApplicationController
     end
   end
 
-  # gets a list of all active games
+  # gets a list of all games
   # [
   #   {
   #     "id":integer,
@@ -83,7 +96,7 @@ class GamesController < ApplicationController
   def index
     games = []
     Game.all.each do |game|
-      games << game.as_json if !game.is_active
+      games << game.as_json
     end
     render json: games.to_json
   end

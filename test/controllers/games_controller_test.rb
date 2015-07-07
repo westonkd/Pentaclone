@@ -5,6 +5,6 @@ class GamesControllerTest < ActionController::TestCase
   #   assert true
   # end
   test "first test" do
-
+    assert true
   end
 end
