@@ -40,6 +40,60 @@
       set_quad_one(ArrayHelper.new(quad))
     end
 
+    def rotate_quad_two(clockwise = true)
+      quad = get_quad_two.transpose
+
+      if !clockwise
+        quad = quad.map { |r| r.reverse }
+      else
+        temp = Array.new(quad.length){Array.new(quad.length){'-'}}
+        for r in 0..temp.length - 1
+          for c in 0..temp.length - 1
+            temp[temp.length - c - 1][r] = quad[c][r]
+          end
+        end
+        quad = temp
+      end
+
+      set_quad_two(ArrayHelper.new(quad))
+    end
+
+    def rotate_quad_three(clockwise = true)
+      quad = get_quad_three.transpose
+
+      if !clockwise
+        quad = quad.map { |r| r.reverse }
+      else
+        temp = Array.new(quad.length){Array.new(quad.length){'-'}}
+        for r in 0..temp.length - 1
+          for c in 0..temp.length - 1
+            temp[temp.length - c - 1][r] = quad[c][r]
+          end
+        end
+        quad = temp
+      end
+
+      set_quad_three(ArrayHelper.new(quad))
+    end
+
+    def rotate_quad_four(clockwise = true)
+      quad = get_quad_four.transpose
+
+      if !clockwise
+        quad = quad.map { |r| r.reverse }
+      else
+        temp = Array.new(quad.length){Array.new(quad.length){'-'}}
+        for r in 0..temp.length - 1
+          for c in 0..temp.length - 1
+            temp[temp.length - c - 1][r] = quad[c][r]
+          end
+        end
+        quad = temp
+      end
+
+      set_quad_four(ArrayHelper.new(quad))
+    end
+
     def get_quad_four
       ret_val = Array.new(@quad_size){Array.new(@quad_size){'-'}}
 

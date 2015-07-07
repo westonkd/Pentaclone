@@ -2,7 +2,7 @@ require 'json'
 
 class GamesController < ApplicationController
   #create a new game and initialize board to nil
-  # POST games/new
+  # POST /games
   #
   # returns
   # {
@@ -60,9 +60,79 @@ class GamesController < ApplicationController
     end
   end
 
-  #going to need game id (in url) player token (in post body) and move (x,y)
+  # Make a move in the game
+  # POST games/:id/move
+  # expects
+  # {
+  #   "token": string,
+  #   "row": int or string, (i.e. '1'or 1)
+  #   "col": int or string, (i.e '1' or 1)
+  #   "quad": int, (the column to rotate)
+  #   "clockwise": boolean (true to rotate 'quad' clockwise, false to rotate counter-clockwise)
+  # }
+  #
+  # returns
+  # 404 if game not found
+  # 403 if not user's turn or invalid token
+  # 400 if user did not specify all required fields or the move is already taken
   def move
-    render json: {move: "test"}
+    render(nothing: true, status: 404) if !(Game.exists?(params[:id]) && Game.find(params[:id]).is_active)
+
+    if !(params[:token] && params[:row] && params[:col] && params[:quad])
+      render(nothing: true, status: 400)
+      return
+    end
+
+    game = Game.find(params[:id])
+    player = Player.find_by_token(params[:token])
+
+    #if it is the players turn and they provide a valid token
+    if player && player.id != game.last_player_id
+
+      #make the move if it is in bounds and not taken
+      if (0..5).include?(params[:row]) && (0..5).include?(params[:col])
+        if game.board.board_state[params[:row]][params[:col]] != 0
+          render(nothing: true, status: 400)
+          return
+        end
+
+        #set the piece
+        piece = game.player_one == player.id ? 1 : 2
+        game.board.board_state[params[:row]][params[:col]] = piece
+
+        #rotate the specified quadrant
+        board = ArrayHelper.new(game.board.board_state)
+        board.out
+        case params[:quad].to_i
+          when 1
+            board.rotate_quad_one params[:clockwise]
+          when 2
+            board.rotate_quad_two params[:clockwise]
+          when 3
+            board.rotate_quad_three params[:clockwise]
+          when 4
+            board.rotate_quad_four params[:clockwise]
+          else
+            render(nothing: true, status: 400)
+            return
+        end
+        puts "\n"
+        board.out
+        game.board.board_state = board.array
+      else
+        render(nothing: true, status: 404)
+        return
+      end
+
+      game.last_player_id = player.id
+
+      game.board.save!
+      game.save!
+
+      render json: {move: "valid"}
+    else
+      render(nothing: true, status: 403)
+    end
   end
 
   # shows a single game if it exists.
