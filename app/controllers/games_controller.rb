@@ -68,7 +68,7 @@ class GamesController < ApplicationController
   #   "row": int or string, (i.e. '1'or 1)
   #   "col": int or string, (i.e '1' or 1)
   #   "quad": int, (the column to rotate)
-  #   "clockwise": boolean (true to rotate 'quad' clockwise, false to rotate counter-clockwise)
+  #   (optional) "clockwise": boolean (true to rotate 'quad' clockwise, do not include to rotate counter-clockwise)
   # }
   #
   # returns
@@ -76,7 +76,10 @@ class GamesController < ApplicationController
   # 403 if not user's turn or invalid token
   # 400 if user did not specify all required fields or the move is already taken
   def move
-    render(nothing: true, status: 404) if !(Game.exists?(params[:id]) && Game.find(params[:id]).is_active)
+    if !(Game.exists?(params[:id]) && Game.find(params[:id]).is_active)
+      render(nothing: true, status: 404)
+      return
+    end
 
     if !(params[:token] && params[:row] && params[:col] && params[:quad])
       render(nothing: true, status: 400)
@@ -129,7 +132,16 @@ class GamesController < ApplicationController
       game.board.save!
       game.save!
 
-      render json: {move: "valid"}
+      #check for a winner
+      if game.board.win?(piece)
+        render json: {winner: player.name, board: game.board.board_state.as_json}
+        game.winner_id = player.id
+        game.is_active = false
+        game.save!
+        return
+      end
+
+      render json: {board: game.board.board_state.as_json}
     else
       render(nothing: true, status: 403)
     end

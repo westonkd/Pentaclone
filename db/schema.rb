@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150706212214) do
+ActiveRecord::Schema.define(version: 20150708150405) do
 
   create_table "boards", force: :cascade do |t|
     t.text     "board_state"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20150706212214) do
     t.boolean  "is_active"
     t.integer  "board_id"
     t.integer  "last_player_id"
+    t.integer  "winner_id"
   end
 
   add_index "games", ["board_id"], name: "index_games_on_board_id"
