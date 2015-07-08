@@ -1,6 +1,11 @@
 require 'json'
 
 class GamesController < ApplicationController
+  #
+  def viz
+    @game_state = Game.find(params[:id]).board.board_state if Game.exists?(params[:id])
+  end
+
   #create a new game and initialize board to nil
   # POST /games
   #
@@ -94,14 +99,27 @@ class GamesController < ApplicationController
 
       #make the move if it is in bounds and not taken
       if (0..5).include?(params[:row]) && (0..5).include?(params[:col])
-        if game.board.board_state[params[:row]][params[:col]] != 0
+        if game.board.board_state[params[:col]][params[:row]] != 0
           render(nothing: true, status: 400)
           return
         end
 
         #set the piece
         piece = game.player_one == player.id ? 1 : 2
-        game.board.board_state[params[:row]][params[:col]] = piece
+        game.board.board_state[params[:col]][params[:row]] = piece
+
+        #check for a winner
+        if game.board.win?(1) || game.board.win?(2)
+          winner = game.board.win?(1) ? Player.find(game.player_one) : Player.find(game.player_two)
+
+          render json: {winner: winner.name, board: game.board.board_state.as_json}
+          game.winner_id = winner.id
+
+          game.is_active = false
+          game.board.save!
+          game.save!
+          return
+        end
 
         #rotate the specified quadrant
         board = ArrayHelper.new(game.board.board_state)
@@ -132,14 +150,6 @@ class GamesController < ApplicationController
       game.board.save!
       game.save!
 
-      #check for a winner
-      if game.board.win?(piece)
-        render json: {winner: player.name, board: game.board.board_state.as_json}
-        game.winner_id = player.id
-        game.is_active = false
-        game.save!
-        return
-      end
       render json: {board: game.board.board_state.as_json}
     else
       render(nothing: true, status: 403)
