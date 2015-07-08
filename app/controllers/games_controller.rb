@@ -140,7 +140,6 @@ class GamesController < ApplicationController
         game.save!
         return
       end
-
       render json: {board: game.board.board_state.as_json}
     else
       render(nothing: true, status: 403)
