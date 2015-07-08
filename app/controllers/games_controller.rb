@@ -132,6 +132,7 @@ class GamesController < ApplicationController
       game.board.save!
       game.save!
 
+<<<<<<< HEAD
       #check for a winner
       if game.board.win?(piece)
         render json: {winner: player.name, board: game.board.board_state.as_json}
@@ -142,6 +143,9 @@ class GamesController < ApplicationController
       end
 
       render json: {board: game.board.board_state.as_json}
+=======
+      render json: {move: "valid"}
+>>>>>>> 65560814dc1a072de2f055228502ce4320f0a304
     else
       render(nothing: true, status: 403)
     end
