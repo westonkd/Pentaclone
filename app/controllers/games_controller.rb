@@ -138,6 +138,20 @@ class GamesController < ApplicationController
             render(nothing: true, status: 400)
             return
         end
+
+        #check for a winner
+        if game.board.win?(1) || game.board.win?(2)
+          winner = game.board.win?(1) ? Player.find(game.player_one) : Player.find(game.player_two)
+
+          render json: {winner: winner.name, board: game.board.board_state.as_json}
+          game.winner_id = winner.id
+
+          game.is_active = false
+          game.board.save!
+          game.save!
+          return
+        end
+
         puts "\n"
         board.out
         game.board.board_state = board.array
