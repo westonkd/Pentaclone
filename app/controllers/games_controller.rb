@@ -4,6 +4,7 @@ class GamesController < ApplicationController
   #
   def viz
     @game_state = Game.find(params[:id]).board.board_state if Game.exists?(params[:id])
+    @winner = Game.find(params[:id]).winner_id ? Player.find(Game.find(params[:id]).winner_id).name : ''
   end
 
   #create a new game and initialize board to nil
@@ -167,7 +168,7 @@ class GamesController < ApplicationController
   # }
   def show
     if Game.exists?(id: params[:id])
-      render json: Game.find(params[:id]).as_json
+      render json: {game: Game.find(params[:id]).as_json, board: Game.find(params[:id]).board.board_state.as_json}
     else
       render nothing: true, status: 404
     end
