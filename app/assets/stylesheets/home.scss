@@ -1,3 +1,48 @@
 // Place all the styles related to the home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.color-header {
+  background-color: rgb(197, 197, 255);
+
+  h1 {
+    color: white;
+  }
+}
+
+main.home {
+  margin-top: 100px;
+}
+
+.p-description {
+  padding: 100px 0px 100px 0px;
+  border-bottom: solid 1px lightgrey;
+  border-top: solid 1px lightgrey;
+  background-color: whitesmoke;
+  -webkit-box-shadow: inset 0px 0px 9px 0px rgba(0,0,0,0.13);
+  -moz-box-shadow: inset 0px 0px 9px 0px rgba(0,0,0,0.13);
+  box-shadow: inset 0px 0px 9px 0px rgba(0,0,0,0.13);
+}
+
+.p-info {
+  border: solid 1px lightgrey;
+  background-color: whitesmoke;
+  border-radius: 2%;
+  margin-top: 100px;
+  margin-bottom: 100px;
+  height: 78px;
+  padding: 15px;
+  -webkit-box-shadow: inset 0px 0px 9px 0px rgba(0,0,0,0.13);
+  -moz-box-shadow: inset 0px 0px 9px 0px rgba(0,0,0,0.13);
+  box-shadow: inset 0px 0px 9px 0px rgba(0,0,0,0.13);
+  transition: background-color .25s;
+  cursor: pointer;
+}
+
+.p-info:hover {
+  background-color: lightblue;
+}
+
+a:hover {
+  text-decoration: none !important;
+}
+
