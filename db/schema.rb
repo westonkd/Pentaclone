@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20150708150405) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "boards", force: :cascade do |t|
     t.text     "board_state"
     t.datetime "created_at",  null: false
@@ -26,12 +29,9 @@ ActiveRecord::Schema.define(version: 20150708150405) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.boolean  "is_active"
-    t.integer  "board_id"
     t.integer  "last_player_id"
     t.integer  "winner_id"
   end
-
-  add_index "games", ["board_id"], name: "index_games_on_board_id"
 
   create_table "players", force: :cascade do |t|
     t.string   "token"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20150708150405) do
     t.integer  "game_id"
   end
 
-  add_index "players", ["game_id"], name: "index_players_on_game_id"
+  add_index "players", ["game_id"], name: "index_players_on_game_id", using: :btree
 
+  add_foreign_key "players", "games"
 end
