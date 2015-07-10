@@ -1,4 +1,5 @@
 # Pentaclone: A Pentago clone web service
+Pentaclone is a game server that provides a REST API to play a clone of the game Pentago.
 
 ## Getting Started
 1. Install gems `bundle install`
