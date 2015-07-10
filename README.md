@@ -36,6 +36,7 @@
 ## Making a Move
 1. Make a post to `games/<id of game to make move in>/move` with the move data formatted as raw JSON in the POST:
 ### Request
+
 ```
 {
   "token": "<player token>", //string
