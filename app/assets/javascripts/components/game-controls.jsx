@@ -1,4 +1,25 @@
 
+var ClickToSelect = React.createClass({
+  propTypes: {
+    children: React.PropTypes.any.isRequired
+  },
+  select: function(e) {
+    e.preventDefault();
+    var self = React.findDOMNode(this),
+      range = document.createRange(),
+      sel = window.getSelection();
+    range.selectNodeContents(self);
+    sel.removeAllRanges();
+    sel.addRange(range);
+  },
+  render: function() {
+    return React.createElement(
+      'span',
+      { onClick: this.select },
+      this.props.children);
+  }
+});
+
 var GameControls = React.createClass({
   propTypes: {
     getUrl: React.PropTypes.string,
@@ -28,7 +49,10 @@ var GameControls = React.createClass({
         $(React.findDOMNode(thiss.refs.joinFail)).fadeIn();
       },
       success: function(data, textSTatus, xhr) {
-        $(React.findDOMNode(thiss.refs.playerTokenWell)).html(data.player_token);
+
+        thiss.setState({
+          token: data.player_token
+        });
 
         if (data.first_move) {
           thiss.setState({
@@ -41,6 +65,11 @@ var GameControls = React.createClass({
     });
   },
 
+  selectText:function () {
+    console.log('here');
+    $(React.findDOMNode(this.refs.playerTokenWell)).select();
+  },
+
   showPlayerToken: function() {
     $(React.findDOMNode(this.refs.joinForm)).slideToggle();
     $(React.findDOMNode(this.refs.playerToken)).slideToggle();
@@ -50,6 +79,7 @@ var GameControls = React.createClass({
     return (
       <div>
         <div ref="joinForm">
+
           <h3>Join Game</h3>
           <p><em>Enter a player name to join</em></p>
           <div className="form-group">
@@ -64,7 +94,8 @@ var GameControls = React.createClass({
 
         <div ref="playerToken" id="playerToken">
           <h3>Player Token:</h3>
-          <div className="well" ref="playerTokenWell">
+          <div className="well">
+            <ClickToSelect>{ this.state.token }</ClickToSelect>
           </div>
           <p>
             You make the {this.state.playsFirst ? "first" : "second"} move.
