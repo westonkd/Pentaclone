@@ -61,7 +61,7 @@ var Piece = React.createClass({
           <div className="body">
             <div className="form-group">
               <label className="control-label" for="token">Player Token</label>
-              <input type="text" className="form-control" id="token" ref="token"/>
+              <input type="text" className="form-control" id="token" ref="token" value={localStorage.getItem('playerToken')}/>
             </div>
 
             <div className="form-group">
