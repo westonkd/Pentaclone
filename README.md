@@ -1,4 +1,5 @@
 # Pentaclone: A Pentago clone web service
+Pentaclone is a game server that provides a REST API to play a clone of the game Pentago.
 
 ## Getting Started
 1. Install gems `bundle install`
@@ -35,6 +36,7 @@
 
 ## Making a Move
 1. Make a post to `games/<id of game to make move in>/move` with the move data formatted as raw JSON in the POST:
+
 ### Request
 
 ```
@@ -70,6 +72,47 @@ To rotate a quadrant counter-clockwise leave out the "clockwise" property:
 }
 ```
 
+Quadrants are labeled the same as a standard Cartesian plane:
+
+```
+II | I
+---+---
+III|IV
+```
+
 ## Game Visualizer
+Penticlone has a build-in game visualizer to easily see active and past games. The visualizer also allows a player to make moves using a simple interface. To view an active or past game navigate to `/games/<game id of game to see>/viz`. To make a move in an active game click on an empty slot and provide your player token.
 
 ## Getting Game Data
+### Get All Games
+#### Request
+```
+GET /games
+```
+
+#### Example Response
+```
+  [
+    {"id":1,"player_one":1,"player_two":2,"created_at":"2015-07-09T21:19:21.182Z","updated_at":"2015-07-09T21:26:14.475Z","is_active":false,"last_player_id":2,"winner_id":1},
+    {"id":5,"player_one":10,"player_two":12,"created_at":"2015-07-09T23:45:51.370Z","updated_at":"2015-07-09T23:54:02.567Z","is_active":false,"last_player_id":10,"winner_id":12}
+  ]
+```
+
+### Get Single Game
+#### Request
+```
+GET /games/<game id>
+```
+
+#### Example Response
+```
+{
+  "id":5,
+  "player_one":10,
+  "player_two":12,
+  "created_at":"2015-07-09T23:45:51.370Z",
+  "updated_at":"2015-07-09T23:54:02.567Z",
+  "is_active":false,"last_player_id":10,
+  "winner_id":12
+}
+```
