@@ -49,6 +49,7 @@ var GameControls = React.createClass({
         $(React.findDOMNode(thiss.refs.joinFail)).fadeIn();
       },
       success: function(data, textSTatus, xhr) {
+        localStorage.setItem('playerToken', data.player_token);
 
         thiss.setState({
           token: data.player_token

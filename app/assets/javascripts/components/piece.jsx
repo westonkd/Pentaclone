@@ -12,6 +12,10 @@ var Piece = React.createClass({
     }
   },
 
+  hideModal: function() {
+    $(React.findDOMNode(this.refs.submitModal)).hide();
+  },
+
   makeMove: function() {
     this.updateQuad;
     this.updateDirection;
@@ -54,14 +58,14 @@ var Piece = React.createClass({
     return (
       <div style={{display: 'inline'}}>
         <div className="submit-modal" ref="submitModal">
-          <div className="close" onMouseDown={this.showModal}>
+          <div className="close" onMouseDown={this.hideModal}>
             x
           </div>
 
           <div className="body">
             <div className="form-group">
               <label className="control-label" for="token">Player Token</label>
-              <input type="text" className="form-control" id="token" ref="token"/>
+              <input type="text" className="form-control" id="token" ref="token" value={localStorage.getItem('playerToken')}/>
             </div>
 
             <div className="form-group">
