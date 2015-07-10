@@ -21,6 +21,8 @@ main.home {
   -webkit-box-shadow: inset 0px 0px 9px 0px rgba(0,0,0,0.13);
   -moz-box-shadow: inset 0px 0px 9px 0px rgba(0,0,0,0.13);
   box-shadow: inset 0px 0px 9px 0px rgba(0,0,0,0.13);
+  background-image: url('back.jpg');
+  background-size: 953px;
 }
 
 .p-info {
@@ -29,13 +31,17 @@ main.home {
   border-radius: 2%;
   margin-top: 100px;
   margin-bottom: 100px;
-  height: 78px;
+  height: 71px;
   padding: 15px;
   -webkit-box-shadow: inset 0px 0px 9px 0px rgba(0,0,0,0.13);
   -moz-box-shadow: inset 0px 0px 9px 0px rgba(0,0,0,0.13);
   box-shadow: inset 0px 0px 9px 0px rgba(0,0,0,0.13);
   transition: background-color .25s;
   cursor: pointer;
+
+  h4 {
+    font-size: 18px;
+  }
 }
 
 .p-info:hover {
