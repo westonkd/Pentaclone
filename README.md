@@ -81,7 +81,7 @@ III|IV
 ```
 
 ## Game Visualizer
-Penticlone has a build-in game visualizer to easily see active and past games. The visualizer also allows a player to make moves using a simple interface. To view an active or past game navigate to `/games/<game id of game to see>/viz`. To make a move in an active game click on an empty slot and provide your player token.
+Penticlone has a build-in game visualizer to easily see active and past games. The visualizer also allows a player to join a game and make moves using a simple interface. To view an active or past game navigate to `/games/<game id of game to see>/viz`. To make a move in an active game click on an empty slot and provide your player token.
 
 ## Getting Game Data
 ### Get All Games
