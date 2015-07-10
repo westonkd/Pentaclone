@@ -7597,6 +7597,15 @@ div.vertical-label {
   }
 }
 
-.board-container {
+.board-container, .controls-container {
   margin-top: 50px;
+}
+
+div#playerToken {
+  display:none;
+}
+
+div.join-failure {
+  margin-top: 69px;
+  display: none;
 }

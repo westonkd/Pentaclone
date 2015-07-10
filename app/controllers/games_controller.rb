@@ -5,6 +5,8 @@ class GamesController < ApplicationController
   def viz
     @game_state = Game.find(params[:id]).board.board_state if Game.exists?(params[:id])
     @winner = Game.find(params[:id]).winner_id ? Player.find(Game.find(params[:id]).winner_id).name : ''
+    @is_open = !(Game.find(params[:id]).player_one && Game.find(params[:id]).player_two)
+
   end
 
   #create a new game and initialize board to nil

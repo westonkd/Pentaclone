@@ -1,6 +1,6 @@
-<main class="container">
+<main class="container" style="min-width: 1000px !important;">
   <div class="row">
-    <div class="col-xs-12">
+    <div class="col-sm-8">
       <div class="center-content board-container">
         <%= react_component 'Board', {getUrl: request.original_url.split('/viz').first, board: @game_state.as_json } %>
         <% if @winner != '' %>
@@ -8,6 +8,18 @@
             <em>The winner is: <%= @winner %>!</em>
           </p>
         <% end %>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="controls-container">
+        <p>
+          <% if @is_open %>
+            <%= react_component 'GameControls', {getUrl: request.original_url.split('/viz').first, gameId: params[:id].to_i } %>
+          <% else %>
+            <p>Game Full</p>
+          <% end %>
+        </p>
       </div>
     </div>
   </div>
